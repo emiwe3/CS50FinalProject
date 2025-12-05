@@ -39,14 +39,15 @@ h1 {
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
 }
 
 .label {
   font-size: 1.3rem;
-  white-space: nowrap;
+  width: 180px;       /* keeps all labels aligned */
+  text-align: left;
 }
+
 
 input[type="email"],
 input[type="password"] {
