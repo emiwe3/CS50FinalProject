@@ -166,17 +166,21 @@ body {
 }
 
 #location-controls {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  background: rgba(246, 232, 201, 0.95);
-  border: 2px solid #5a1d1d;
-  border-radius: 10px;
-  padding: 15px;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  max-width: 300px;
+    position: absolute;
+    top: 70px;            /* under the quiz button */
+    right: 20px;
+    width: 250px;
+
+    background: rgba(246, 232, 201, 0.95);
+    border: 2px solid #5a1d1d;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    z-index: 500; /* ← THIS IS THE FIX */
 }
+
+
 
 #location-controls h3 {
   margin: 0 0 10px 0;

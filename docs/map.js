@@ -403,43 +403,22 @@ function setUserLocationHere() {
 function setupLocationControls() {
     const locationControls = document.createElement('div');
     locationControls.id = 'location-controls';
-    locationControls.style.cssText = `
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        background: rgba(246, 232, 201, 0.95);
-        border: 2px solid #5a1d1d;
-        border-radius: 10px;
-        padding: 15px;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        max-width: 300px;
-    `;
-    
+    locationControls.className = 'location-controls';  // <-- NEW
+
     locationControls.innerHTML = `
-        <h3 style="margin: 0 0 10px 0; color: #5a1d1d; font-size: 1.2rem;">📍 Your Location</h3>
-        <div id="current-location-display" style="margin-bottom: 10px; padding: 8px; background: #f6e8c9; border-radius: 5px; font-size: 0.9rem;">
+        <h3>📍 Your Location</h3>
+        <div id="current-location-display">
             Click a building icon on the map
         </div>
-        <select id="building-select" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #5a1d1d; background: #f6e8c9; font-family: inherit; font-size: 1rem;">
+        <select id="building-select">
             <option value="">Or select from list...</option>
         </select>
-        <div id="location-legend" style="margin-top: 15px; font-size: 0.85rem; color: #5a1d1d;">
-            <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                <div style="width: 16px; height: 16px; background: #8a0018; border-radius: 50%; border: 2px solid white; margin-right: 8px;"></div>
-                <span>You</span>
-            </div>
-            <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                <div style="width: 16px; height: 16px; background: #5a1d1d; border-radius: 50%; border: 2px solid white; margin-right: 8px;"></div>
-                <span>Buildings (Clickable)</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-                <div style="width: 16px; height: 16px; background: #2e7d32; border-radius: 50%; border: 2px solid white; margin-right: 8px;"></div>
-                <span>Friends</span>
-            </div>
+        <div id="location-legend">
+            <div><div style="background:#8a0018"></div><span>You</span></div>
+            <div><div style="background:#2e7d32"></div><span>Friends</span></div>
         </div>
     `;
-    
+
     const select = locationControls.querySelector('#building-select');
     Object.keys(buildingCoordinates).sort().forEach(building => {
         const option = document.createElement('option');
@@ -447,17 +426,19 @@ function setupLocationControls() {
         option.textContent = building;
         select.appendChild(option);
     });
-    
+
     select.addEventListener('change', (e) => {
         if (e.target.value) {
             updateUserLocation(e.target.value);
-            showBuildingInfo(e.target.value, buildingCoordinates[e.target.value].x, buildingCoordinates[e.target.value].y);
+            const coords = buildingCoordinates[e.target.value];
+            showBuildingInfo(e.target.value, coords.x, coords.y);
             e.target.value = '';
         }
     });
-    
-    document.body.appendChild(locationControls);
+
+    document.getElementById("location-controls-wrapper").appendChild(locationControls);
 }
+
 
 function setupUserLocationListener() {
     const userLocationRef = ref(rtdb, `locations/${currentUser.uid}`);

@@ -5,8 +5,6 @@ const buildingCoordinates = {
   "Annenberg": { x: 695, y: 93 },
   "Science Center": { x: 340, y: 79 },
   "Widener Library": { x: 508, y: 610 },
-  "Memorial Hall": { x: 695, y: 93 },
-  "Sanders Theater": { x: 695, y: 93 },
   "Memorial Church": { x: 504, y: 335 },
   "University Hall": { x: 304, y: 390 },
   "Emerson Hall": { x: 784, y: 536 },
