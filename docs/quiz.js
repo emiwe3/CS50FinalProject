@@ -1,6 +1,3 @@
-// quiz.js
-
-// ====== BUILDING COORDINATES (same as map.js) ======
 const buildingCoordinates = {
   "Annenberg": { x: 695, y: 93 },
   "Science Center": { x: 340, y: 79 },
@@ -44,14 +41,12 @@ const buildingCoordinates = {
   "Carpenter Ctr": { x: 968, y: 430 }
 };
 
-// ===== MAP DIMENSIONS (emptymap.png) =====
 const MAP_WIDTH = 1280;
 const MAP_HEIGHT = 832;
 
 function pxToPercentX(x) { return (x / MAP_WIDTH) * 100; }
 function pxToPercentY(y) { return (y / MAP_HEIGHT) * 100; }
 
-// ===== QUIZ STATE =====
 const allBuildings = Object.keys(buildingCoordinates);
 let quizOrder = [];
 let currentIndex = 0;
@@ -63,7 +58,6 @@ const popup = document.getElementById("quiz-popup");
 const finalScoreText = document.getElementById("final-score");
 const scoreBox = document.getElementById("quiz-score");
 
-// ===== STARTUP =====
 window.addEventListener("load", () => {
   document.getElementById("exit-quiz").onclick = () => {
     window.location.href = "map.html";   // ✅ back to map
@@ -77,12 +71,9 @@ window.addEventListener("load", () => {
   startQuiz();
 });
 
-// ===== QUIZ CORE =====
 function startQuiz() {
-  // clear old markers
   document.querySelectorAll(".quiz-marker").forEach(el => el.remove());
 
-  // randomize question order
   quizOrder = [...allBuildings].sort(() => Math.random() - 0.5);
   currentIndex = 0;
   correct = 0;
@@ -102,7 +93,6 @@ function updateScore() {
   scoreBox.textContent = `Score: ${pct}%`;
 }
 
-// ===== PLACE MARKERS (same visual style as main map) =====
 function placeMarkers() {
   allBuildings.forEach(name => {
     const coords = buildingCoordinates[name];
@@ -111,7 +101,6 @@ function placeMarkers() {
     marker.className = "building-icon quiz-marker";
     marker.dataset.building = name;
 
-    // same style as createBuildingIcon in map.js
     marker.style.position = "absolute";
     marker.style.left = pxToPercentX(coords.x) + "%";
     marker.style.top = pxToPercentY(coords.y) + "%";
@@ -125,7 +114,6 @@ function placeMarkers() {
     marker.style.transition = "all 0.2s ease";
     marker.style.zIndex = "50";
 
-    // inner dot
     const innerDot = document.createElement("div");
     innerDot.style.position = "absolute";
     innerDot.style.top = "50%";
@@ -142,17 +130,14 @@ function placeMarkers() {
   });
 }
 
-// ===== HANDLE ANSWER CLICKS =====
 function handleAnswer(selectedName, marker) {
   const correctName = quizOrder[currentIndex];
 
   if (selectedName === correctName) {
-    // ✅ correct → green
     marker.style.background = "#2e7d32";
     marker.style.borderColor = "#1b5e20";
     correct++;
   } else {
-    // ❌ wrong → red
     marker.style.background = "#c62828";
     marker.style.borderColor = "#8e0000";
   }
@@ -167,7 +152,6 @@ function handleAnswer(selectedName, marker) {
   }
 }
 
-// ===== FINISH QUIZ =====
 function endQuiz() {
   const pct = Math.round((correct / allBuildings.length) * 100);
   finalScoreText.textContent = `Mischief managed! You scored ${pct}%.`;
