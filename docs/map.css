@@ -167,7 +167,7 @@ body {
 
 #location-controls {
     position: absolute;
-    top: 70px;            /* under the quiz button */
+    top: 70px;  
     right: 20px;
     width: 250px;
 
@@ -177,7 +177,7 @@ body {
     padding: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 
-    z-index: 500; /* ← THIS IS THE FIX */
+    z-index: 500; 
 }
 
 
