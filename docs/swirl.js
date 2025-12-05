@@ -40,7 +40,6 @@ function triggerEntrance() {
   document.body.classList.add("fade-out");
 
   setTimeout(() => {
-    // ✅ Use the global enterMap() defined in index.html
     if (typeof enterMap === "function") {
       enterMap();
     } else {
