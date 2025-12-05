@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: cs50project-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    runtime: python3

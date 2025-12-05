@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="friends.css" />
+  <title>Friends</title>
+</head>
+<body>
+  <div class="top-overlay">
+    <div class="title">Marauder's Map: Harvard Edition</div>
+    <div class="menu-bar">
+      <a href="profile.html">PROFILE</a>
+      <a href="map.html">MAP</a>
+      <a href="friends.html" class="active">FRIENDS</a>
+    </div>
+  </div>
+
+  <div class="friends-container">
+    <div class="column">
+      <h2>Add Friends</h2>
+      <div class="panel">
+        <input id="searchBar" type="text" placeholder="Search by name or email...">
+        <div id="searchResults">
+          <div class="empty-message">Start typing to search for friends</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>Your Friends</h2>
+      <div class="panel" id="friendsList">
+        <div class="empty-message">No friends yet</div>
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>Friend Requests</h2>
+      <div class="panel" id="requestList">
+        <div class="empty-message">No pending requests</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    CS50 FINAL PROJECT • CREATED BY EMILY AND MELISA
+  </div>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="friends.js"></script>
+  <script type="module" src="presence.js"></script>
+
+</body>
+</html>

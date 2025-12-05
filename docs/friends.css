@@ -1,0 +1,265 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "EB Garamond", serif;
+  background: #d6c29c;
+  min-height: 100vh;
+}
+
+.top-overlay {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(214, 194, 156, 0.9);
+  padding: 20px 0 15px 0;
+  z-index: 1000;
+  border-bottom: 3px solid #5a1d1d;
+}
+
+.title {
+  font-size: 2.8rem;
+  color: #5c1e1e;
+  margin-bottom: 15px;
+}
+
+.menu-bar {
+  background: #f6e8c9;
+  border: 2px solid #5a1d1d;
+  border-radius: 20px;
+  padding: 12px 50px;
+  width: max-content;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.menu-bar a {
+  text-decoration: none;
+  color: #5a1d1d;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.menu-bar a.active {
+  color: #8a0018;
+  text-shadow: 1px 1px 2px rgba(120,0,0,0.3);
+}
+
+.friends-container {
+  margin-top: 180px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.column {
+  width: 30%;
+  min-width: 350px;
+  text-align: center;
+}
+
+.column h2 {
+  font-size: 1.8rem;
+  color: #5a1d1d;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #7d4a34;
+}
+
+.panel {
+  background: #f1ddba;
+  border-radius: 15px;
+  padding: 25px;
+  border: 3px solid #7d4a34;
+  min-height: 400px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+#searchBar {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 2px solid #7d4a34;
+  background: #f6e8c9;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3a2619;
+}
+
+#searchBar:focus {
+  outline: none;
+  border-color: #8a0018;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid #d4b483;
+  transition: all 0.3s;
+}
+
+.user-row:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.user-info {
+  text-align: left;
+  flex: 1;
+}
+
+.username {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #5a1d1d;
+  margin-bottom: 5px;
+}
+
+.email {
+  font-size: 0.95rem;
+  color: #7d4a34;
+  font-family: monospace;
+  margin-bottom: 5px;
+}
+
+.friend-status {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.add-btn {
+  background: #7d4a34;
+  color: white;
+  border-color: #7d4a34;
+}
+
+.add-btn:hover {
+  background: #8a0018;
+  border-color: #8a0018;
+}
+
+.accept-btn {
+  background: #2e7d32;
+  color: white;
+  border-color: #2e7d32;
+  margin-right: 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.decline-btn {
+  background: #c62828;
+  color: white;
+  border-color: #c62828;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+
+.remove-btn {
+  background: transparent;
+  color: #5a1d1d;
+  border-color: #5a1d1d;
+}
+
+.remove-btn:hover {
+  background: #5a1d1d;
+  color: white;
+}
+
+.request-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.empty-message, .error-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #7d4a34;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.error-message {
+  color: #c62828;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(214, 194, 156, 0.9);
+  padding: 12px;
+  text-align: center;
+  border-top: 2px solid #5a1d1d;
+  font-size: 1.1rem;
+  color: #5a1d1d;
+  z-index: 1000;
+}
+
+@media (max-width: 1200px) {
+  .friends-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .column {
+    width: 80%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  
+  .menu-bar {
+    gap: 30px;
+    padding: 10px 30px;
+  }
+  
+  .menu-bar a {
+    font-size: 1.2rem;
+  }
+  
+  .friends-container {
+    margin-top: 160px;
+    padding: 0 10px;
+  }
+  
+  .column {
+    width: 100%;
+  }
+  
+  .panel {
+    padding: 20px;
+    min-height: 300px;
+  }
+}

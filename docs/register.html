@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <div class="card">
+    <h1>Register</h1>
+    
+    <form id="register-form">
+      <div class="form-group">
+        <div class="label">Email</div>
+        <input id="email" type="email" required placeholder="your@email.com">
+      </div>
+      
+      <div class="form-group">
+        <div class="label">Password</div>
+        <input id="password" type="password" required placeholder="At least 6 characters">
+      </div>
+      
+      <div class="form-group">
+        <div class="label">Confirm Password</div>
+        <input id="confirm" type="password" required placeholder="Repeat password">
+      </div>
+      
+      <button type="submit" class="btn-main">Sign Up</button>
+      
+      <div class="helper-text">
+        Already registered? <a href="login.html">Login here</a>
+      </div>
+    </form>
+  </div>
+  
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+.hotspot {
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hotspot:hover {
+    transform: translate(-50%, -50%) scale(1.3);
+}
+
+.friend-marker {
+    position: absolute;
+    z-index: 100;
+}
+
+.friend-marker:hover {
+    z-index: 101;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup-content {
+    background: #f1ddba;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+    border: 3px solid #7d4a34;
+    position: relative;
+}
+
+.popup-content h2 {
+    color: #5a1d1d;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.friend-details p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+.friend-details strong {
+    color: #5a1d1d;
+}
+
+.online {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.offline {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #5a1d1d;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #8a0018;
+}
+
+@media (max-width: 768px) {
+    .map-img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    #location-controls {
+        bottom: 70px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+    }
+}
