@@ -343,14 +343,12 @@ function checkFriendsAtBuilding(buildingName) {
 
     let friendsHere = [];
 
-  // Add friends
     friendMarkers.forEach((marker, userId) => {
         if (marker.location && marker.location.building === buildingName) {
             friendsHere.push(marker.location.username);
         }
     });
-
-// Add YOURSELF
+    
 if (userLocation && userLocation.building === buildingName) {
     friendsHere.push("You");
 }
@@ -364,7 +362,6 @@ if (userLocation && userLocation.building === buildingName) {
         return;
     }
 
-    // If friends exist → show names
     statusElement.textContent = `${friendsHere.length} friend${friendsHere.length !== 1 ? "s" : ""} here`;
     statusElement.className = "online";
 
