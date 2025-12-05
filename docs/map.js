@@ -122,11 +122,6 @@ function highlightMyBuilding(buildingName) {
 }
 
 
-// function initLocationSystem() {
-//     const userLocationRef = ref(rtdb, `locations/${currentUser.uid}`);
-//     onDisconnect(userLocationRef).remove();
-// }
-
 function setupBuildingIcons() {
     const mapImg = document.querySelector('.map-img');
     if (!mapImg) return;
@@ -606,16 +601,11 @@ function setupFriendLocationListener() {
 
 
 async function updateFriendMarkers(locations) {
-    
-    // Remove only the marker elements from the map, not the stored data
     friendMarkers.forEach((markerObj) => {
         if (markerObj.element && markerObj.element.parentNode) {
             markerObj.element.parentNode.removeChild(markerObj.element);
         }
     });
-
-// Do NOT clear the friendMarkers map!
-// friendMarkers.clear();
 
     
     let friendsList = [];
@@ -646,7 +636,6 @@ function createFriendMarker(userId, location, isOnline) {
     const mapContainer = document.querySelector('.map-container');
     if (!mapContainer) return;
 
-    // Remove existing marker
     const existingMarker = friendMarkers.get(userId);
     if (existingMarker && existingMarker.element) {
         if (existingMarker.element.parentNode) {
@@ -683,26 +672,19 @@ function createFriendMarker(userId, location, isOnline) {
         animation: friendPulse 2s infinite;
     `;
 
-    // INITIAL
     const initial = location.username ? location.username.charAt(0).toUpperCase() : 'F';
     marker.textContent = initial;
 
-    // -------------------------------------
-    // ✔ Apply offline styling AFTER marker exists
-    // -------------------------------------
     if (!isOnline) {
         marker.style.opacity = "0.45";
         marker.style.filter = "grayscale(100%)";
         marker.title = `${location.username} (Offline — last seen at ${location.building})`;
     }
-    // -------------------------------------
-
-    // Metadata
+   
     marker.dataset.userId = userId;
     marker.dataset.username = location.username || 'Friend';
     marker.dataset.building = location.building || 'Unknown';
 
-    // Tooltip
     marker.addEventListener('mouseenter', () => {
         marker.style.transform = 'translate(-50%, -50%) scale(1.2)';
         marker.style.zIndex = '101';
@@ -744,7 +726,6 @@ function createFriendMarker(userId, location, isOnline) {
     marker.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    // Open the SAME popup used for buildings
     const buildingName = location.building;
 
     const coords = buildingCoordinates[buildingName];
@@ -752,7 +733,6 @@ function createFriendMarker(userId, location, isOnline) {
 
     showBuildingInfo(buildingName, coords.x, coords.y);
 
-    // Add friend's name to popup
     const status = document.getElementById('building-info-status');
     if (status) {
         status.textContent = `${location.username} is here`;
@@ -773,12 +753,9 @@ function showFriendInfo(location) {
     alert(`${location.username} is at ${location.building}`);
 }
 
-
-// Add global functions for HTML onclick attributes
 window.closeBuildingInfo = closeBuildingInfo;
 window.setUserLocationHere = setUserLocationHere;
 
-// Add animation CSS
 const style = document.createElement('style');
 style.textContent = `
     @keyframes friendPulse {
