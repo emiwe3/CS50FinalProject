@@ -1,11 +1,9 @@
-/* Container for title + bar */
 .menu-wrapper {
   text-align: center;
   margin-top: 20px;
   font-family: "Garamond", serif;
 }
 
-/* Title text */
 .menu-title {
   font-size: 3rem;
   font-weight: 400;
@@ -16,7 +14,6 @@
   font-family: "Garamond", serif;
 }
 
-/* Rounded menu bar */
 .menu-bar {
   background: #f3e5c8;
   border: 2px solid #5a1d1d;
@@ -27,7 +24,6 @@
   box-shadow: 2px 3px 6px rgba(0,0,0,0.2);
 }
 
-/* Menu links */
 .menu-bar a {
   text-decoration: none;
   font-size: 1.6rem;
@@ -37,7 +33,6 @@
   transition: 0.2s ease;
 }
 
-/* Hover effect */
 .menu-bar a:hover {
   color: #7d2a2a;
   text-shadow: 1px 1px 3px rgba(120, 0, 0, 0.3);
