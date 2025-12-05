@@ -1,4 +1,3 @@
-// profile.js - FIXED LOCATION TRACKING
 import {
   auth,
   db,
@@ -17,10 +16,8 @@ import {
 let currentUser = null;
 let userLocationData = null;
 
-// Wait for authentication
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    // No user logged in, redirect to login
     window.location.href = "login.html";
     return;
   }
@@ -28,32 +25,25 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   console.log("Profile page - User:", user.email);
   
-  // Load user data
   await loadUserProfile();
   
-  // Start location tracking listener
   setupLocationTracking();
   
-  // Setup event listeners
   setupEventListeners();
 });
 
-// LOAD USER PROFILE DATA
 async function loadUserProfile() {
   try {
-    // Get user document from Firestore
     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
     
     if (userDoc.exists()) {
       const userData = userDoc.data();
       
-      // Update welcome message
       const welcomeMsg = document.getElementById("welcome-message");
       if (welcomeMsg) {
         welcomeMsg.textContent = `Hello ${userData.username || userData.email.split('@')[0]}!`;
       }
       
-      // Update profile info
       const usernameDisplay = document.getElementById("username-display");
       const userEmail = document.getElementById("user-email");
       const friendCount = document.getElementById("friend-count");
@@ -72,7 +62,6 @@ async function loadUserProfile() {
       }
       
     } else {
-      // If no Firestore document, use email username
       const welcomeMsg = document.getElementById("welcome-message");
       const usernameDisplay = document.getElementById("username-display");
       const userEmail = document.getElementById("user-email");
@@ -84,7 +73,6 @@ async function loadUserProfile() {
     
   } catch (error) {
     console.error("Error loading profile:", error);
-    // Still show something even if there's an error
     const welcomeMsg = document.getElementById("welcome-message");
     const usernameDisplay = document.getElementById("username-display");
     const userEmail = document.getElementById("user-email");
@@ -95,9 +83,7 @@ async function loadUserProfile() {
   }
 }
 
-// SETUP LOCATION TRACKING
 function setupLocationTracking() {
-  // Listen to user's own location
   const userLocationRef = ref(rtdb, `locations/${currentUser.uid}`);
   
   onValue(userLocationRef, (snapshot) => {
@@ -105,7 +91,6 @@ function setupLocationTracking() {
     updateLocationDisplay();
   });
   
-  // Listen for friends' locations
   const allLocationsRef = ref(rtdb, 'locations');
   
   onValue(allLocationsRef, (snapshot) => {
@@ -114,9 +99,6 @@ function setupLocationTracking() {
   });
 }
 
-// UPDATE LOCATION DISPLAY
-// In profile.js - Update the location display function
-// UPDATE LOCATION DISPLAY
 function updateLocationDisplay() {
   const locationElement = document.getElementById("current-location");
   if (!locationElement) return;
@@ -146,17 +128,14 @@ function updateLocationDisplay() {
   }
 }
 
-// UPDATE FRIENDS ONLINE STATUS
 async function updateFriendsOnline(locations) {
   try {
-    // Get user's friends list
     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
     if (!userDoc.exists()) return;
     
     const userData = userDoc.data();
     const friends = userData.friends || [];
     
-    // Count online friends (updated in last 30 seconds)
     const onlineFriends = friends.filter(friendId => {
       const friendLocation = locations[friendId];
       if (!friendLocation) return false;
@@ -166,7 +145,6 @@ async function updateFriendsOnline(locations) {
       return isOnline;
     });
     
-    // Update display
     const onlineFriendsElement = document.getElementById("online-friends");
     if (onlineFriendsElement) {
       if (onlineFriends.length === 0) {
@@ -186,7 +164,6 @@ async function updateFriendsOnline(locations) {
   }
 }
 
-// FORMAT TIME
 function formatTime(timestamp) {
   if (!timestamp) return "Unknown";
   
@@ -204,11 +181,9 @@ function formatTime(timestamp) {
   return date.toLocaleDateString();
 }
 
-// SETUP EVENT LISTENERS
 function setupEventListeners() {
   console.log("Setting up event listeners...");
   
-  // Change Password Button
   const changePasswordBtn = document.getElementById("change-password-btn");
   if (changePasswordBtn) {
     changePasswordBtn.addEventListener("click", () => {
@@ -217,7 +192,6 @@ function setupEventListeners() {
     });
   }
   
-  // Logout Button
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
@@ -226,11 +200,9 @@ function setupEventListeners() {
     });
   }
   
-  // Password Modal
   const passwordModal = document.getElementById("password-modal");
   const closeModalBtns = document.querySelectorAll(".close-modal");
   
-  // Close modal buttons
   closeModalBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       hidePasswordModal();
@@ -238,7 +210,6 @@ function setupEventListeners() {
     });
   });
   
-  // Close modal when clicking outside
   window.addEventListener("click", (event) => {
     if (event.target === passwordModal) {
       hidePasswordModal();
@@ -250,13 +221,11 @@ function setupEventListeners() {
     }
   });
   
-  // Password form submission
   const passwordForm = document.getElementById("password-form");
   if (passwordForm) {
     passwordForm.addEventListener("submit", handlePasswordChange);
   }
   
-  // Logout confirmation buttons
   const confirmLogoutBtn = document.getElementById("confirm-logout");
   const cancelLogoutBtn = document.getElementById("cancel-logout");
   
@@ -268,7 +237,6 @@ function setupEventListeners() {
     cancelLogoutBtn.addEventListener("click", hideLogoutConfirmation);
   }
   
-  // Update Location Button (if exists)
   const updateLocationBtn = document.getElementById("update-location-btn");
   if (updateLocationBtn) {
     updateLocationBtn.addEventListener("click", () => {
@@ -277,13 +245,10 @@ function setupEventListeners() {
   }
 }
 
-// PASSWORD MODAL FUNCTIONS
 function showPasswordModal() {
-  // Reset form
   const passwordForm = document.getElementById("password-form");
   if (passwordForm) passwordForm.reset();
   
-  // Show modal
   const modal = document.getElementById("password-modal");
   if (modal) {
     modal.style.display = "flex";
@@ -299,7 +264,6 @@ function hidePasswordModal() {
   }
 }
 
-// LOGOUT CONFIRMATION FUNCTIONS
 function showLogoutConfirmation() {
   const modal = document.getElementById("confirm-modal");
   if (modal) {
@@ -316,7 +280,6 @@ function hideLogoutConfirmation() {
   }
 }
 
-// HANDLE PASSWORD CHANGE
 async function handlePasswordChange(e) {
   e.preventDefault();
   
@@ -324,7 +287,6 @@ async function handlePasswordChange(e) {
   const newPassword = document.getElementById("new-password")?.value;
   const confirmPassword = document.getElementById("confirm-password")?.value;
   
-  // Validate
   if (!currentPassword || !newPassword || !confirmPassword) {
     alert("Please fill in all password fields");
     return;
@@ -341,7 +303,6 @@ async function handlePasswordChange(e) {
   }
   
   try {
-    // Re-authenticate user
     const credential = EmailAuthProvider.credential(
       currentUser.email,
       currentPassword
@@ -349,13 +310,10 @@ async function handlePasswordChange(e) {
     
     await reauthenticateWithCredential(currentUser, credential);
     
-    // Update password
     await updatePassword(currentUser, newPassword);
     
-    // Success
     alert("✅ Password updated successfully!");
     
-    // Clear form and close modal
     e.target.reset();
     hidePasswordModal();
     
@@ -374,10 +332,8 @@ async function handlePasswordChange(e) {
   }
 }
 
-// PERFORM LOGOUT
 async function performLogout() {
   try {
-    // Clean up location data before logout
     if (currentUser) {
       const userLocationRef = ref(rtdb, `locations/${currentUser.uid}`);
       const { set } = await import("./firebase.js");
@@ -387,7 +343,6 @@ async function performLogout() {
     await signOut(auth);
     console.log("User logged out successfully");
     
-    // Redirect to login page
     window.location.href = "login.html";
     
   } catch (error) {
@@ -396,7 +351,6 @@ async function performLogout() {
   }
 }
 
-// Debug: Make functions available globally
 window.debugProfile = {
   showPasswordModal: showPasswordModal,
   showLogoutConfirmation: showLogoutConfirmation,
