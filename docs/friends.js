@@ -171,7 +171,6 @@ async function loadFriends() {
 
         friendsList.appendChild(friendDiv);
 
-        // FIX: pass friendUid
         checkFriendOnlineStatus(friendUid, friendDiv);
         checkFriendLocation(friendUid, friendDiv);
 
