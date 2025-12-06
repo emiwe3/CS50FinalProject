@@ -36,4 +36,4 @@ This website is very easy to use and no downloads are required. The user simply 
 4. Another good improvement would be to include friend recommendations underneath the search bar to make it easier for first years to connect with other people. 
 
 ## Technologies Used
-Various technological tools were utilized in the course of the project. We used artificial intelligence like DeepSeek and ChatGPT to help us implement some of our designs and technologies. We used firebase to store our data. We also utilized this website: https://imageonline.io/find-coordinates-of-image/#google_vignette to find the pixel locations of the buildings to implement the icons. Figma was used to create the website designs.
+Various technological tools were utilized in the course of the project. Mention AI debugging. We used Firebase to store our data. We also utilized this website: https://imageonline.io/find-coordinates-of-image/#google_vignette to find the pixel locations of the buildings to implement the icons. Figma was used to create the website designs.
