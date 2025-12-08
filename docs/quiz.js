@@ -60,7 +60,7 @@ const scoreBox = document.getElementById("quiz-score");
 
 window.addEventListener("load", () => {
   document.getElementById("exit-quiz").onclick = () => {
-    window.location.href = "map.html";   // ✅ back to map
+    window.location.href = "map.html";   
   };
 
   document.getElementById("restart-quiz").onclick = () => {
