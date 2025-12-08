@@ -10,6 +10,9 @@
 ## Link to our Website:
 https://emiwe3.github.io/CS50FinalProject/ 
 
+## Link to our YouTube Video:
+https://youtu.be/FISnKKwisGE
+
 ## Summary of Project
 The Marauder's Map: Harvard Edition is a fun website for first years to track the location of their new friends and explore Harvard Yard in an interactive quiz. You and your friends can set your location to one of the buildings on the map. When the user clicks on the friends tab, their status as well as their friends' status are shown. This makes meetings between friends much easier since instead of having to text your friend to ask for their location, you can easily see where they are based on the map. The map also includes an entertaining quiz where the user applies their knowledge of Harvard Yard's buildings. Outside of making the map more engaging, this quiz also helps first-year students recognize where buildings are located, which prevents them from getting lost easily. The website also lets users add or remove friends, view their current friends, and see where those friends are located on the Friends page. The Profile page displays each user’s personal information.
 
