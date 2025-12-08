@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="map.css">
+    <title>Map Quiz</title>
+</head>
+
+<body>
+
+<div class="top-overlay">
+    <div class="title">Harvard Yard Quiz</div>
+
+    <div id="quiz-score" class="quiz-score">Score: 0%</div>
+
+    <button id="exit-quiz" class="quiz-exit">Exit Quiz</button>
+</div>
+
+<div class="map-container">
+    <img src="emptymap.png" class="map-img">
+</div>
+
+<div id="quiz-question" class="quiz-question">
+    Where is <span id="quiz-building-name"></span>?
+</div>
+
+<div id="quiz-popup" class="popup hidden">
+    <div class="popup-content">
+        <h2>Mischief Managed ✨</h2>
+        <p id="final-score"></p>
+        <button id="restart-quiz" class="btn-set-location">Start Again</button>
+    </div>
+</div>
+
+<script type="module" src="quiz.js"></script>
+<script type="module" src="presence.js"></script>
+
+</body>
+</html>

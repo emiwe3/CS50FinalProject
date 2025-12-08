@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="map.css" />
+    <title>Map</title>
+</head>
+
+<body>
+
+    <div class="top-overlay">
+        <div class="title">Marauder's Map: Harvard edition</div>
+
+        <div class="menu-bar">
+            <a href="profile.html">PROFILE</a>
+            <a href="map.html" class="active">MAP</a>
+            <a href="friends.html">FRIENDS</a>
+
+        </div>
+    </div>
+
+    <div class="map-container">
+        <img src="map.png" class="map-img" alt="Map of Harvard Yard"/>
+        <button id="quiz-button" class="quiz-btn">I solemnly swear I am a first year</button>
+        <div id="location-controls-wrapper"></div>
+    </div>
+
+    <div class="footer">
+        CS50 FINAL PROJECT &nbsp; • &nbsp; CREATED BY EMILY AND MELISA
+    </div>
+
+    <div id="friend-info-popup" class="popup hidden">
+        <div class="popup-content">
+            <button class="close-btn">&times;</button>
+            <h2>Friend Info</h2>
+            <div class="friend-details">
+                <p><strong>Name:</strong> <span id="friend-name"></span></p>
+                <p><strong>Email:</strong> <span id="friend-email"></span></p>
+                <p><strong>Location:</strong> <span id="friend-building"></span></p>
+                <p><strong>Status:</strong> <span id="friend-status" class="online"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="map.js"></script>
+    <script type="module" src="presence.js"></script>
+</body>
+</html>

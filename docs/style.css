@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.35), transparent 55%),
+    radial-gradient(circle at 40% 80%, rgba(0,0,0,0.15), transparent 60%),
+    linear-gradient(135deg, #d6b98a, #caa878);
+  font-family: "EB Garamond", serif;
+  color: #4d0b0b;
+  overflow: hidden;
+  transition: opacity 1s ease;
+}
+
+#content {
+  transition: opacity 1s ease;
+}
+
+h1 {
+  font-family: "Great Vibes";
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  color: #5b0b0b;
+  text-shadow: 0 0.15em 0.25em rgba(0,0,0,0.4);
+  margin-bottom: 1.2rem;
+}
+
+p {
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #5b0b0b;
+}
+
+.fade-out {
+  opacity: 0;
+}

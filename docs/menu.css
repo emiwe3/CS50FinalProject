@@ -1,0 +1,39 @@
+.menu-wrapper {
+  text-align: center;
+  margin-top: 20px;
+  font-family: "Garamond", serif;
+}
+
+.menu-title {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #5a1d1d;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(90, 30, 30, 0.3);
+  font-family: "Garamond", serif;
+}
+
+.menu-bar {
+  background: #f3e5c8;
+  border: 2px solid #5a1d1d;
+  border-radius: 20px;
+  padding: 18px 50px;
+  display: inline-flex;
+  gap: 60px;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.2);
+}
+
+.menu-bar a {
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #5a1d1d;
+  letter-spacing: 2px;
+  transition: 0.2s ease;
+}
+
+.menu-bar a:hover {
+  color: #7d2a2a;
+  text-shadow: 1px 1px 3px rgba(120, 0, 0, 0.3);
+}

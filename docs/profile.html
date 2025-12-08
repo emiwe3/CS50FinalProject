@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="top-overlay">
+        <div class="title">Marauder's Map: Harvard edition</div>
+        <div class="menu-bar">
+            <a href="profile.html" class="active">PROFILE</a>
+            <a href="map.html">MAP</a>
+            <a href="friends.html">FRIENDS</a>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <h1 id="welcome-message">Hello Username!</h1>
+            
+            <div class="profile-info">
+                <div class="info-section">
+                    <h3>Profile Overview</h3>
+                    <div class="overview-grid">
+                        <div class="overview-item">
+                            <div class="overview-label">Username</div>
+                            <div class="overview-value" id="username-display">Loading...</div>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-label">Email</div>
+                            <div class="overview-value" id="user-email">Loading...</div>
+                        </div>
+                        <div class="overview-item">
+                            <div class="overview-label">Friends</div>
+                            <div class="overview-value" id="friend-count">0 friends</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Current Location</h3>
+                    <div class="location-card" id="current-location">
+                        <div class="location-loading">
+                            <span class="loading-spinner"></span>
+                            Loading location...
+                        </div>
+                    </div>
+                    <button class="btn-secondary" id="update-location-btn" style="margin-top: 15px;">
+                        Update Location on Map
+                    </button>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Friends Status</h3>
+                    <div class="friends-status" id="online-friends">
+                        <div class="friends-loading">
+                            Loading friends status...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Account Security</h3>
+                    <div class="password-section">
+                        <div class="password-row">
+                            <span class="password-label">Password</span>
+                            <button class="change-btn" id="change-password-btn">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="logout-btn" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        CS50 FINAL PROJECT • CREATED BY EMILY AND MELISA
+    </div>
+
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Set New Password</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" required minlength="6">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                        <button type="submit" class="btn-primary">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-modal">
+            <div class="modal-body">
+                <h3>Are you sure you want to logout?</h3>
+                <div class="confirm-actions">
+                    <button id="cancel-logout" class="btn-secondary">Cancel</button>
+                    <button id="confirm-logout" class="btn-danger">Yes, Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="profile.js"></script>
+    <script type="module" src="presence.js"></script>
+
+</body>
+</html>
