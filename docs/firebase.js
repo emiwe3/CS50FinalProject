@@ -1,5 +1,7 @@
+// import firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
+// imports for firebase authentication
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -12,6 +14,7 @@ import {
   updateEmail
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+// imports for firestore 
 import {
   getFirestore,
   collection,
@@ -25,6 +28,7 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// imports for realtime database
 import {
   getDatabase,
   ref,
@@ -36,6 +40,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+// contains API keys and project info
 const firebaseConfig = {
   apiKey: "AIzaSyBBRZig8OdmRciVLvcsJ8EnMEvGQ-O9s5c",
   authDomain: "marauders-map-51f92.firebaseapp.com",
@@ -51,6 +56,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
+// export everything in order for firebase usability in other parts of the website
 export {
   auth,
   db,
