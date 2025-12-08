@@ -1,3 +1,4 @@
+// pixel locations for buildings on the map
 const buildingCoordinates = {
   "Annenberg": { x: 695, y: 93 },
   "Science Center": { x: 340, y: 79 },
@@ -41,12 +42,15 @@ const buildingCoordinates = {
   "Carpenter Ctr": { x: 968, y: 430 }
 };
 
+// define the constant width and height of map
 const MAP_WIDTH = 1280;
 const MAP_HEIGHT = 832;
 
+// converts the pixel locations to percentages for positioning
 function pxToPercentX(x) { return (x / MAP_WIDTH) * 100; }
 function pxToPercentY(y) { return (y / MAP_HEIGHT) * 100; }
 
+// initilizes quiz variables
 const allBuildings = Object.keys(buildingCoordinates);
 let quizOrder = [];
 let currentIndex = 0;
@@ -58,6 +62,7 @@ const popup = document.getElementById("quiz-popup");
 const finalScoreText = document.getElementById("final-score");
 const scoreBox = document.getElementById("quiz-score");
 
+// initializes quix when the page loads
 window.addEventListener("load", () => {
   document.getElementById("exit-quiz").onclick = () => {
     window.location.href = "map.html";   
@@ -71,6 +76,7 @@ window.addEventListener("load", () => {
   startQuiz();
 });
 
+// starts the quiz
 function startQuiz() {
   document.querySelectorAll(".quiz-marker").forEach(el => el.remove());
   quizOrder = [...allBuildings].sort(() => Math.random() - 0.5);
@@ -81,17 +87,17 @@ function startQuiz() {
   placeMarkers();
   askQuestion();
 }
-
+// displays the next building name question
 function askQuestion() {
   const currentBuilding = quizOrder[currentIndex];
   questionSpan.textContent = currentBuilding;
 }
-
+//updates the score
 function updateScore() {
   const pct = Math.round((correct / allBuildings.length) * 100);
   scoreBox.textContent = `Score: ${pct}%`;
 }
-
+// places the markers for each building onto the map
 function placeMarkers() {
   allBuildings.forEach(name => {
     const coords = buildingCoordinates[name];
@@ -128,7 +134,7 @@ function placeMarkers() {
     mapContainer.appendChild(marker);
   });
 }
-
+// handles the user's answer 
 function handleAnswer(selectedName, marker) {
   const correctName = quizOrder[currentIndex];
 
@@ -144,6 +150,7 @@ function handleAnswer(selectedName, marker) {
   currentIndex++;
   updateScore();
 
+  // ends quiz if all questions are answered
   if (currentIndex >= allBuildings.length) {
     endQuiz();
   } else {
@@ -151,6 +158,7 @@ function handleAnswer(selectedName, marker) {
   }
 }
 
+// displays final score
 function endQuiz() {
   const pct = Math.round((correct / allBuildings.length) * 100);
   finalScoreText.textContent = `Mischief managed! You scored ${pct}%.`;
