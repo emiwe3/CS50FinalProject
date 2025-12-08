@@ -1,3 +1,4 @@
+// import functions from firebase
 import {
   auth,
   db,
@@ -11,11 +12,13 @@ import {
   arrayRemove
 } from "./firebase.js";
 
+// declare global variables
 let currentUser = null;
 let allUsers = [];
 let currentFriends = [];
 let currentRequests = [];
 
+// if no user is logged in go to the login page
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -24,6 +27,7 @@ onAuthStateChanged(auth, async (user) => {
 
   currentUser = user;
 
+  // load all users, friends, and requests
   await loadAllUsers();
   await loadUserData();
   loadFriends();
@@ -41,6 +45,7 @@ async function loadAllUsers() {
 }
 
 async function loadUserData() {
+  // fetch current friends and pending requests
   const userDoc = await getDoc(doc(db, "users", currentUser.uid));
   if (!userDoc.exists()) return;
 
@@ -54,6 +59,7 @@ function setupSearchListener() {
   if (searchBar) searchBar.addEventListener("input", searchUsers);
 }
 
+// search for users
 function searchUsers() {
   const searchInput = document.getElementById("searchBar");
   const resultsDiv = document.getElementById("searchResults");
@@ -62,11 +68,13 @@ function searchUsers() {
   const term = searchInput.value.toLowerCase().trim();
   resultsDiv.innerHTML = "";
 
+  // filter users 
   const filtered = allUsers.filter((user) => {
     if (user.id === currentUser.uid) return false;
     if (currentFriends.includes(user.id)) return false;
     if (currentRequests.includes(user.id)) return false;
 
+    // match users by username 
     if (term === "") return true;
     return (
       user.username.toLowerCase().includes(term) ||
@@ -82,6 +90,7 @@ function searchUsers() {
     return;
   }
 
+  // display filtered users
   filtered.forEach((user) => {
     const div = document.createElement("div");
     div.className = "user-row";
@@ -99,6 +108,7 @@ function searchUsers() {
   });
 }
 
+// display current friends
 async function loadFriends() {
   const friendsList = document.getElementById("friendsList");
   if (!friendsList) return;
@@ -110,6 +120,7 @@ async function loadFriends() {
     return;
   }
 
+   // display friends' info
   for (const uid of currentFriends) {
     const snap = await getDoc(doc(db, "users", uid));
     if (!snap.exists()) continue;
@@ -132,6 +143,7 @@ async function loadFriends() {
   }
 }
 
+// load friend requests
 async function loadRequests() {
   const requestList = document.getElementById("requestList");
   if (!requestList) return;
@@ -170,6 +182,7 @@ async function loadRequests() {
   }
 }
 
+// send a friend request
 async function sendRequest(receiverId) {
   await updateDoc(doc(db, "users", receiverId), {
     requests: arrayUnion(currentUser.uid)
@@ -180,6 +193,7 @@ async function sendRequest(receiverId) {
   loadRequests();
 }
 
+// accept a friend request
 async function acceptRequest(senderId) {
   await updateDoc(doc(db, "users", currentUser.uid), {
     friends: arrayUnion(senderId),
@@ -196,6 +210,7 @@ async function acceptRequest(senderId) {
   searchUsers();
 }
 
+// decline a friend request
 async function declineRequest(senderId) {
   await updateDoc(doc(db, "users", currentUser.uid), {
     requests: arrayRemove(senderId)
@@ -206,6 +221,7 @@ async function declineRequest(senderId) {
   searchUsers();
 }
 
+// remove a friend
 async function removeFriend(friendId) {
   await updateDoc(doc(db, "users", currentUser.uid), {
     friends: arrayRemove(friendId)
