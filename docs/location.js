@@ -4,6 +4,7 @@ let currentUser = null;
 let friendLocations = new Map();
 let locationCallbacks = [];
 
+// pixel locations of buildings on the map
 export const buildingCoordinates = {
   "Annenberg": { x: 695, y: 93 },
   "Science Center": { x: 340, y: 79 },
@@ -47,17 +48,19 @@ export const buildingCoordinates = {
   "Carpenter Ctr": { x: 968, y: 430 }
 };
 
+// listens to changes in authentication
 auth.onAuthStateChanged(async (user) => {
   if (!user) return;
   currentUser = user;
   setupFriendLocationListener();
 });
-
+// listens for any changes in friend location
 function setupFriendLocationListener() {
   onValue(ref(rtdb, "locations"), (snapshot) => {
     friendLocations.clear();
     const data = snapshot.val() || {};
 
+    // loops through the locations in the database
     Object.entries(data).forEach(([uid, loc]) => {
       if (uid !== currentUser?.uid) {
         friendLocations.set(uid, loc);
@@ -72,17 +75,20 @@ export function onFriendLocationsUpdate(callback) {
   locationCallbacks.push(callback);
 }
 
+// registers location updates and issues a notifies changes
 function notifyLocationCallbacks() {
   const arr = Array.from(friendLocations.values());
   locationCallbacks.forEach((cb) => cb(arr));
 }
 
+// allows user to set their current location
 export async function setManualLocation(buildingName) {
   if (!currentUser || !buildingCoordinates[buildingName]) return;
 
   const coords = buildingCoordinates[buildingName];
   const username = await getUsername(currentUser.uid);
 
+  // updates the user's location
   await update(ref(rtdb, `locations/${currentUser.uid}`), {
     userId: currentUser.uid,
     email: currentUser.email,
