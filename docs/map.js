@@ -13,13 +13,14 @@ import {
     serverTimestamp
 } from "./firebase.js";
 
-
+// initialize variables
 let currentUser = null;
 let friendMarkers = new Map();
 let userLocation = null;
 let currentUserMarker = null;
 let buildingMarkers = new Map();
 
+// define the constants for the map width and height
 const MAP_WIDTH = 1280;
 const MAP_HEIGHT = 832;
 
@@ -31,7 +32,7 @@ function pxToPercentY(y) {
     return (y / MAP_HEIGHT) * 100;
 }
 
-
+// pixel locations on map for each building
 const buildingCoordinates = {
   "Annenberg": { x: 695, y: 93 },
   "Science Center": { x: 340, y: 79 },
@@ -78,6 +79,7 @@ const buildingCoordinates = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+     // check if logged in
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location.href = "login.html";
@@ -99,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// navigates to quiz page
 document.addEventListener('DOMContentLoaded', () => {
     const quizBtn = document.getElementById("quiz-button");
     if (quizBtn) {
@@ -108,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
+// highlights building that has user location
 function highlightMyBuilding(buildingName) {
     buildingMarkers.forEach((icon, name) => {
         if (name === buildingName) {
@@ -119,7 +122,7 @@ function highlightMyBuilding(buildingName) {
     });
 }
 
-
+// creates the icons for the buildings on the map
 function setupBuildingIcons() {
     const mapImg = document.querySelector('.map-img');
     if (!mapImg) return;
@@ -173,7 +176,7 @@ function createBuildingIcon(buildingName, x, y) {
     icon.addEventListener('mouseenter', () => {
         icon.classList.add("hovering");
 
-        
+         // show a tooltip when hovering
         const tooltip = document.createElement('div');
         tooltip.className = 'building-tooltip';
         tooltip.textContent = buildingName;
@@ -194,7 +197,7 @@ function createBuildingIcon(buildingName, x, y) {
         `;
         icon.appendChild(tooltip);
     });
-    
+     // remove the tooltip
     icon.addEventListener('mouseleave', () => {
         icon.classList.remove("hovering");
     
@@ -203,6 +206,7 @@ function createBuildingIcon(buildingName, x, y) {
         if (tooltip) tooltip.remove();
     });
     
+    // sets user location when icon is clicked
     icon.addEventListener('click', (e) => {
         e.stopPropagation();
         updateUserLocation(buildingName);
@@ -215,7 +219,7 @@ function createBuildingIcon(buildingName, x, y) {
     
     console.log(`Icon placed: ${buildingName} at (${x}, ${y})`);
 }
-
+// building popup
 function showBuildingInfo(buildingName, x, y) {
     let infoPopup = document.getElementById('building-info-popup');
     
@@ -237,7 +241,8 @@ function showBuildingInfo(buildingName, x, y) {
             </div>
         `;
         document.body.appendChild(infoPopup);
-        
+
+        // style of popup
         const style = document.createElement('style');
         style.textContent = `
             .building-info-popup {
@@ -318,7 +323,7 @@ function showBuildingInfo(buildingName, x, y) {
         `;
         document.head.appendChild(style);
     }
-    
+    // update popup
     document.getElementById('building-info-name').textContent = buildingName;
     document.getElementById('building-info-coords').textContent = `(${x}, ${y})`;
     
@@ -331,7 +336,7 @@ function showBuildingInfo(buildingName, x, y) {
     if (setBtn) setBtn.style.display = "block"; 
 
 }
-
+// check to see if there are friends in a building
 function checkFriendsAtBuilding(buildingName) {
     const friendsContainer = document.getElementById('building-friends');
     const statusElement = document.getElementById('building-info-status');
@@ -347,11 +352,12 @@ function checkFriendsAtBuilding(buildingName) {
         }
     });
 
+    // add user to list if at a building
 if (userLocation && userLocation.building === buildingName) {
     friendsHere.push("You");
 }
 
-
+    // if there are no friends 
     if (friendsHere.length === 0) {
         statusElement.textContent = "No friends";
         statusElement.className = "offline";
@@ -370,14 +376,14 @@ if (userLocation && userLocation.building === buildingName) {
         <ul style="margin-left:20px;">${list}</ul>
     `;
 }
-
+// close building popup
 function closeBuildingInfo() {
     const infoPopup = document.getElementById('building-info-popup');
     if (infoPopup) {
         infoPopup.classList.add('hidden');
     }
 }
-
+// set user's location to the selected building
 function setUserLocationHere() {
     const infoPopup = document.getElementById('building-info-popup');
     const buildingName = infoPopup?.dataset.currentBuilding;
@@ -389,7 +395,7 @@ function setUserLocationHere() {
     closeBuildingInfo();
 }
 
-
+// for displaying and selecting locations
 function setupLocationControls() {
     const locationControls = document.createElement('div');
     locationControls.id = 'location-controls';
@@ -408,7 +414,8 @@ function setupLocationControls() {
             <div><div style="background:#2e7d32"></div><span>Friends</span></div>
         </div>
     `;
-
+    
+    // add building options to the dropdown
     const select = locationControls.querySelector('#building-select');
     Object.keys(buildingCoordinates).sort().forEach(building => {
         const option = document.createElement('option');
@@ -443,6 +450,7 @@ function setupUserLocationListener() {
     });
 }
 
+// update user's location in the realtime database
 async function updateUserLocation(buildingName) {
     if (!currentUser || !buildingCoordinates[buildingName]) return;
 
@@ -450,6 +458,7 @@ async function updateUserLocation(buildingName) {
 
     const username = currentUser.email.split('@')[0];
 
+    // data saved
     const locationData = {
         username,
         building: buildingName,
@@ -457,23 +466,24 @@ async function updateUserLocation(buildingName) {
         y: coords.y,
         lastUpdate: Date.now()
     };
-
+    
+    // save the data of the location
     await set(ref(rtdb, `locations/${currentUser.uid}`), locationData);
 
     console.log("Saved location to RTDB:", locationData);
 }
 
-
+// update the marker
 function updateUserMarker(location) {
     const mapContainer = document.querySelector('.map-container');
     if (!mapContainer) return;
     
-    
+    // remove the old marker
     if (currentUserMarker && currentUserMarker.parentNode) {
         currentUserMarker.parentNode.removeChild(currentUserMarker);
     }
     
-    
+    // create a new marker
     currentUserMarker = document.createElement('div');
     currentUserMarker.className = 'user-marker';
     currentUserMarker.title = `You are at ${location.building}`;
@@ -508,7 +518,7 @@ function updateUserMarker(location) {
         currentUserMarker.style.transform = 'translate(-50%, -50%) scale(1.2)';
         currentUserMarker.style.zIndex = '151';
         
-        
+        // shows a tooltip when hovering
         const tooltip = document.createElement('div');
         tooltip.className = 'user-tooltip';
         tooltip.innerHTML = `
@@ -534,7 +544,7 @@ function updateUserMarker(location) {
         
         currentUserMarker.appendChild(tooltip);
     });
-    
+    // removes tooltip
     currentUserMarker.addEventListener('mouseleave', () => {
         currentUserMarker.style.transform = 'translate(-50%, -50%) scale(1)';
         currentUserMarker.style.zIndex = '150';
@@ -548,7 +558,7 @@ function updateUserMarker(location) {
     mapContainer.appendChild(currentUserMarker);
 }
 
-
+// popup when updating user's location
 function showLocationConfirmation(buildingName) {
     const confirmation = document.createElement('div');
     confirmation.id = 'location-confirmation';
@@ -594,7 +604,7 @@ function setupFriendLocationListener() {
     });
 }
 
-
+// include updated friend markers on the map
 async function updateFriendMarkers(locations) {
     
     friendMarkers.forEach((markerObj) => {
@@ -613,7 +623,7 @@ async function updateFriendMarkers(locations) {
         console.error("Error getting friends list:", error);
     }
     
-
+     // loop through the location of each friend and create a marker for them
     Object.entries(locations).forEach(([userId, location]) => {
         
         if (userId === currentUser.uid) return;
@@ -626,11 +636,12 @@ async function updateFriendMarkers(locations) {
         createFriendMarker(userId, location, isOnline);
     });
 }
-
+// create a friend marker
 function createFriendMarker(userId, location, isOnline) {
     const mapContainer = document.querySelector('.map-container');
     if (!mapContainer) return;
-
+    
+    // remove existing friend markers
     const existingMarker = friendMarkers.get(userId);
     if (existingMarker && existingMarker.element) {
         if (existingMarker.element.parentNode) {
@@ -670,6 +681,7 @@ function createFriendMarker(userId, location, isOnline) {
     const initial = location.username ? location.username.charAt(0).toUpperCase() : 'F';
     marker.textContent = initial;
 
+    // if the friend is no longer online change the marker appearance
     if (!isOnline) {
         marker.style.opacity = "0.45";
         marker.style.filter = "grayscale(100%)";
@@ -742,7 +754,7 @@ function createFriendMarker(userId, location, isOnline) {
     });
 }
 
-
+// show more info about friend
 function showFriendInfo(location) {
     alert(`${location.username} is at ${location.building}`);
 }
