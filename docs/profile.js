@@ -13,10 +13,14 @@ import {
   updatePassword
 } from "./firebase.js";
 
+// holds authenticated users
 let currentUser = null;
+// holds user location
 let userLocationData = null;
 
+// listens for changes in authentication
 onAuthStateChanged(auth, async (user) => {
+  // redirects user to login page in not logged in
   if (!user) {
     window.location.href = "login.html";
     return;
@@ -28,6 +32,7 @@ onAuthStateChanged(auth, async (user) => {
   setupEventListeners();
 });
 
+// loads user profile from firebase
 async function loadUserProfile() {
   try {
     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
@@ -35,6 +40,7 @@ async function loadUserProfile() {
       ? (userDoc.data().username || currentUser.email.split('@')[0])
       : currentUser.email.split('@')[0];
 
+    // retrieves the list of the user's friends
     const friends = userDoc.exists() ? (userDoc.data().friends || []) : [];
 
     const welcomeMsg = document.getElementById("welcome-message");
@@ -47,6 +53,7 @@ async function loadUserProfile() {
     if (userEmail) userEmail.textContent = currentUser.email;
     if (friendCount) friendCount.textContent = `${friends.length} friend${friends.length !== 1 ? 's' : ''}`;
   } catch {
+    // use email as username if user data not found
     const emailName = currentUser.email.split('@')[0];
 
     const welcomeMsg = document.getElementById("welcome-message");
@@ -72,6 +79,7 @@ function setupLocationTracking() {
   });
 }
 
+// update the UI with current user location
 function updateLocationDisplay() {
   const el = document.getElementById("current-location");
   if (!el) return;
@@ -82,6 +90,7 @@ function updateLocationDisplay() {
       ? formatTime(userLocationData.lastUpdate)
       : 'Unknown';
 
+    // display user location details 
     el.innerHTML = `
       <div style="text-align:center;">
         <div style="font-size:2rem;margin-bottom:10px;">📍</div>
@@ -92,6 +101,7 @@ function updateLocationDisplay() {
     `;
     el.className = "location-card location-active";
   } else {
+    // if no location is available show a message
     el.innerHTML = `
       <div style="text-align:center;">
         <div style="font-size:2rem;margin-bottom:10px;">📍</div>
@@ -103,16 +113,20 @@ function updateLocationDisplay() {
   }
 }
 
+// update UI to show online friends
 async function updateFriendsOnline(locations) {
   const userDoc = await getDoc(doc(db, "users", currentUser.uid));
   if (!userDoc.exists()) return;
 
+  // get the list of user friends
   const friends = userDoc.data().friends || [];
+  // filter online friends
   const onlineFriends = friends.filter(id => {
     const loc = locations[id];
     return loc && loc.lastUpdate && (Date.now() - loc.lastUpdate) < 30000;
   });
 
+  // update UI to show number friends online
   const el = document.getElementById("online-friends");
   if (!el) return;
 
@@ -128,6 +142,7 @@ async function updateFriendsOnline(locations) {
   }
 }
 
+// format the timestamp
 function formatTime(timestamp) {
   const date = new Date(timestamp);
   const diff = Date.now() - date;
@@ -143,15 +158,19 @@ function setupEventListeners() {
   const changePasswordBtn = document.getElementById("change-password-btn");
   if (changePasswordBtn) changePasswordBtn.addEventListener("click", showPasswordModal);
 
+  // listener for logging out
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) logoutBtn.addEventListener("click", showLogoutConfirmation);
 
+  // listener for changing password
   const passwordForm = document.getElementById("password-form");
   if (passwordForm) passwordForm.addEventListener("submit", handlePasswordChange);
 
+  // confirming the logout button
   const confirmLogoutBtn = document.getElementById("confirm-logout");
   if (confirmLogoutBtn) confirmLogoutBtn.addEventListener("click", performLogout);
 
+  // cancel logut button
   const cancelLogoutBtn = document.getElementById("cancel-logout");
   if (cancelLogoutBtn) cancelLogoutBtn.addEventListener("click", hideLogoutConfirmation);
 
@@ -163,12 +182,14 @@ function setupEventListeners() {
     })
   );
 
+  // listener for updating locations
   const updateLocationBtn = document.getElementById("update-location-btn");
   if (updateLocationBtn) updateLocationBtn.addEventListener("click", () => {
     window.location.href = "map.html";
   });
 }
 
+// shows password change modal
 function showPasswordModal() {
   const form = document.getElementById("password-form");
   if (form) form.reset();
@@ -179,6 +200,7 @@ function showPasswordModal() {
   }
 }
 
+// hides password change modal
 function hidePasswordModal() {
   const modal = document.getElementById("password-modal");
   if (modal) {
@@ -186,7 +208,7 @@ function hidePasswordModal() {
     setTimeout(() => modal.style.display = "none", 300);
   }
 }
-
+// shows logout confirmation
 function showLogoutConfirmation() {
   const modal = document.getElementById("confirm-modal");
   if (modal) {
@@ -194,7 +216,7 @@ function showLogoutConfirmation() {
     setTimeout(() => modal.classList.add("show"), 10);
   }
 }
-
+// hides logout confirmation
 function hideLogoutConfirmation() {
   const modal = document.getElementById("confirm-modal");
   if (modal) {
@@ -203,6 +225,7 @@ function hideLogoutConfirmation() {
   }
 }
 
+// handles changing the password
 async function handlePasswordChange(e) {
   e.preventDefault();
 
@@ -240,12 +263,14 @@ async function handlePasswordChange(e) {
   }
 }
 
+// logs the user out
 async function performLogout() {
   try {
     const userLocationRef = ref(rtdb, `locations/${currentUser.uid}`);
     const { set } = await import("./firebase.js");
     await set(userLocationRef, null);
 
+    // signs the user out and redirects them to the logout page
     await signOut(auth);
     window.location.href = "login.html";
   } catch (error) {
