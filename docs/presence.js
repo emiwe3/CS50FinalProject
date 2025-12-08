@@ -6,13 +6,13 @@ onAuthStateChanged(auth, (user) => {
 
     const userRef = ref(rtdb, `locations/${user.uid}`);
 
-    // update online status every 15 seconds
+    // updates online status every 15 seconds
     setInterval(() => {
         update(userRef, { lastUpdate: Date.now() });
     }, 15000);
 
-    // tab becomes active again
     document.addEventListener("visibilitychange", () => {
+        // if the document becomes visible update the timestamp
         if (!document.hidden) {
             update(userRef, { lastUpdate: Date.now() });
         }
